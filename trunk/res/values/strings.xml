@@ -1,4 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--##################################################################-->
+<!--                                                                  -->
+<!--     CSCI-546, Spring 2009 Assignment IV Solution by Group #7     -->
+<!--                                                                  -->
+<!--     Group Members: Chang, Chin-Kai      chinkaic@usc.edu         -->
+<!--                    Moon, Ji Hyun        jihyunmo@usc.edu         -->
+<!--                    Patlolla, Avinash    patlolla@usc.edu         -->
+<!--                    Viswanathan, Manu    mviswana@usc.edu         -->
+<!--                                                                  -->
+<!--##################################################################-->
+<!--                                                                  -->
+<!-- This file specifies the string resources for the turn-by-turn    -->
+<!-- walking directions application.                                  -->
+<!--                                                                  -->
+<!--##################################################################-->
+
+<!--##################################################################-->
+<!--                                                                  -->
+<!-- AssignmentFour: turn-by-turn walking directions for USC campus   -->
+<!--                                                                  -->
+<!-- Copyright (C) 2009 Chin-Kai Chang                                -->
+<!--                    Ji Hyun Moon                                  -->
+<!--                    Avinash Patlolla                              -->
+<!--                    Manu Viswanathan                              -->
+<!--                                                                  -->
+<!-- This file is part of AssignmentFour.                             -->
+<!--                                                                  -->
+<!-- AssignmentFour is free software; you can redistribute it and/or  -->
+<!-- modify it under the terms of the GNU General Public License as   -->
+<!-- published by the Free Software Foundation; either version 2 of   -->
+<!-- the License, or (at your option) any later version.              -->
+<!--                                                                  -->
+<!-- AssignmentFour is distributed in the hope that it will be        -->
+<!-- useful, but WITHOUT ANY WARRANTY; without even the implied       -->
+<!-- warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. -->
+<!-- See the GNU General Public License for more details.             -->
+<!--                                                                  -->
+<!-- You should have received a copy of the GNU General Public        -->
+<!-- License along with AssignmentFour; if not, write to the Free     -->
+<!-- Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,   -->
+<!-- MA 02111-1307 USA.                                               -->
+<!--                                                                  -->
+<!--##################################################################-->
+
+<!--##################################################################-->
+<!--
+     REVISION HISTORY
+
+     $HeadURL$
+     $Id$
+-->
+<!--##################################################################-->
+
 <resources>
-    <string name="app_name">AssignmentFour</string>
+   <string name="app_name">Grp 7 Assign. IV</string>
+
+   <string name="search_btn_label">Go</string>
+
+   <string name="gps_unknown">No location data</string>
+   <string name="no_gps_provider">
+     Sorry, unable to obtain a GPS location provider
+   </string>
+
+   <string name="alert_okay_label">OK</string>
 </resources>
