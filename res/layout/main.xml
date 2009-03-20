@@ -1,13 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--##################################################################-->
+<!--                                                                  -->
+<!--     CSCI-546, Spring 2009 Assignment IV Solution by Group #7     -->
+<!--                                                                  -->
+<!--     Group Members: Chang, Chin-Kai      chinkaic@usc.edu         -->
+<!--                    Moon, Ji Hyun        jihyunmo@usc.edu         -->
+<!--                    Patlolla, Avinash    patlolla@usc.edu         -->
+<!--                    Viswanathan, Manu    mviswana@usc.edu         -->
+<!--                                                                  -->
+<!--##################################################################-->
+<!--                                                                  -->
+<!-- This file specifies the user interface for the turn-by-turn      -->
+<!-- walking directions application.                                  -->
+<!--                                                                  -->
+<!--##################################################################-->
+
+<!--##################################################################-->
+<!--                                                                  -->
+<!-- AssignmentFour: turn-by-turn walking directions for USC campus   -->
+<!--                                                                  -->
+<!-- Copyright (C) 2009 Chin-Kai Chang                                -->
+<!--                    Ji Hyun Moon                                  -->
+<!--                    Avinash Patlolla                              -->
+<!--                    Manu Viswanathan                              -->
+<!--                                                                  -->
+<!-- This file is part of AssignmentFour.                             -->
+<!--                                                                  -->
+<!-- AssignmentFour is free software; you can redistribute it and/or  -->
+<!-- modify it under the terms of the GNU General Public License as   -->
+<!-- published by the Free Software Foundation; either version 2 of   -->
+<!-- the License, or (at your option) any later version.              -->
+<!--                                                                  -->
+<!-- AssignmentFour is distributed in the hope that it will be        -->
+<!-- useful, but WITHOUT ANY WARRANTY; without even the implied       -->
+<!-- warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. -->
+<!-- See the GNU General Public License for more details.             -->
+<!--                                                                  -->
+<!-- You should have received a copy of the GNU General Public        -->
+<!-- License along with AssignmentFour; if not, write to the Free     -->
+<!-- Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,   -->
+<!-- MA 02111-1307 USA.                                               -->
+<!--                                                                  -->
+<!--##################################################################-->
+
+<!--##################################################################-->
+<!--
+     REVISION HISTORY
+
+     $HeadURL$
+     $Id$
+-->
+<!--##################################################################-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Hello World, AssignmentFour"
-    />
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+
+<!-- The building codes search box on the top -->
+<LinearLayout android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content">
+
+   <!-- The edit box for specifying destination building codes -->
+   <EditText android:id="@+id/search_editbox"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:singleLine="true"/>
+
+   <!-- The button to launch the search operation -->
+   <Button android:id="@+id/search_btn"
+           android:text="@string/search_btn_label"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+<!-- Below the destination search box, we display current location -->
+<LinearLayout android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content">
+
+   <TextView android:id="@+id/lat_view"
+             android:layout_width="80dp"
+             android:layout_height="fill_parent"/>
+
+   <TextView android:id="@+id/lon_view"
+             android:layout_width="80dp"
+             android:layout_height="fill_parent"/>
+
+</LinearLayout>
+
+<!-- After the current location, we show the appropriate map tiles -->
+<ImageView android:id="@+id/map_tile"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="2"
+           android:scaleType="centerCrop"/>
+
+<!-- Finally, at the bottom, the list of walking directions -->
+<ListView android:id="@+id/directions"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"/>
+
 </LinearLayout>
 

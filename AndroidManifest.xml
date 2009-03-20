@@ -1,15 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--##################################################################-->
+<!--                                                                  -->
+<!--     CSCI-546, Spring 2009 Assignment IV Solution by Group #7     -->
+<!--                                                                  -->
+<!--     Group Members: Chang, Chin-Kai      chinkaic@usc.edu         -->
+<!--                    Moon, Ji Hyun        jihyunmo@usc.edu         -->
+<!--                    Patlolla, Avinash    patlolla@usc.edu         -->
+<!--                    Viswanathan, Manu    mviswana@usc.edu         -->
+<!--                                                                  -->
+<!--##################################################################-->
+<!--                                                                  -->
+<!-- This file specifies the Android manifest for a turn-by-turn      -->
+<!-- walking directions application for the USC University Park       -->
+<!-- Campus.                                                          -->
+<!--                                                                  -->
+<!--##################################################################-->
+
+<!--##################################################################-->
+<!--                                                                  -->
+<!-- AssignmentFour: turn-by-turn walking directions for USC campus   -->
+<!--                                                                  -->
+<!-- Copyright (C) 2009 Chin-Kai Chang                                -->
+<!--                    Ji Hyun Moon                                  -->
+<!--                    Avinash Patlolla                              -->
+<!--                    Manu Viswanathan                              -->
+<!--                                                                  -->
+<!-- This file is part of AssignmentFour.                             -->
+<!--                                                                  -->
+<!-- AssignmentFour is free software; you can redistribute it and/or  -->
+<!-- modify it under the terms of the GNU General Public License as   -->
+<!-- published by the Free Software Foundation; either version 2 of   -->
+<!-- the License, or (at your option) any later version.              -->
+<!--                                                                  -->
+<!-- AssignmentFour is distributed in the hope that it will be        -->
+<!-- useful, but WITHOUT ANY WARRANTY; without even the implied       -->
+<!-- warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. -->
+<!-- See the GNU General Public License for more details.             -->
+<!--                                                                  -->
+<!-- You should have received a copy of the GNU General Public        -->
+<!-- License along with AssignmentFour; if not, write to the Free     -->
+<!-- Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,   -->
+<!-- MA 02111-1307 USA.                                               -->
+<!--                                                                  -->
+<!--##################################################################-->
+
+<!--##################################################################-->
+<!--
+     REVISION HISTORY
+
+     $HeadURL$
+     $Id$
+-->
+<!--##################################################################-->
+
+<!--===================== MANIFEST BOILERPLATE =======================-->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="cs546.group7"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <application android:label="@string/app_name">
-        <activity android:name=".AssignmentFour"
-                  android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
-</manifest> 
+          package="cs546.group7"
+          android:versionCode="1"
+          android:versionName="1.0">
+
+<!--==================== APPLICATION ACTIVITIES ======================-->
+
+<application android:label="@string/app_name"
+             android:debuggable="true">
+
+<activity android:name=".AssignmentFour"
+          android:label="@string/app_name">
+   <intent-filter>
+      <action android:name="android.intent.action.MAIN" />
+      <category android:name="android.intent.category.LAUNCHER" />
+   </intent-filter>
+</activity>
+
+</application>
+
+<!--========================== PERMISSIONS ===========================-->
+
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+<!--===================== MANIFEST BOILERPLATE =======================-->
+
+</manifest>
