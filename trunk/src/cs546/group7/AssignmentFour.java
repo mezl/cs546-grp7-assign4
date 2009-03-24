@@ -56,17 +56,21 @@ package cs546.group7 ;
 
 //------------------------------ IMPORTS --------------------------------
 
-// Android UI support
-import java.io.File;
-
+// Custom package for Dijkstra related stuff
 import csci561_hw1_search.Problems;
 import csci561_hw1_search.Registry;
+
+// Android UI support
 import android.widget.ArrayAdapter;
+import android.widget.ImageView ;
 import android.widget.TextView ;
 
 // Android application and OS support
 import android.app.Activity ;
 import android.os.Bundle ;
+
+// Java I/O
+import java.io.File;
 
 //--------------------- APPLICATION'S MAIN SCREEN -----------------------
 
@@ -93,6 +97,11 @@ public class AssignmentFour extends Activity {
    GPSRecorder G = GPSRecorder.create(this) ;
    G.use_ui((TextView) findViewById(R.id.lat_view),
             (TextView) findViewById(R.id.lon_view)) ;
+
+   // Create the app database(s) and display objects
+   BuildingMap db = new BuildingMap() ;
+   TileDisplay td =
+      new TileDisplay(this, db, (ImageView) findViewById(R.id.map_tile)) ;
 }
 
 /// Called when the activity is resumed. In our case, we reconnect to the

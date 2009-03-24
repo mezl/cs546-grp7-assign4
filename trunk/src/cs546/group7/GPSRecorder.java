@@ -72,6 +72,7 @@ import android.util.Log ;
 // Java utilities
 import java.text.DecimalFormat ;
 import java.util.Date ;
+import java.util.List ;
 
 //------------------------- CLASS DEFINITION ----------------------------
 
@@ -173,6 +174,27 @@ private void setup_listener(Context C)
    }
 }
 
+//----------------------------- CALLBACK --------------------------------
+
+/// This interface allows clients to receive GPS update notifications.
+/// Any object that wants these notifications must implement this
+/// interface and register the callback object with the GPS recorder.
+public interface RefreshCB {
+   public abstract void gpsUpdated(Location L) ;
+}
+
+/// The GPS recorder maintains a list of callback objects that will be
+/// triggered when its GPS listener sends it an update notification.
+private List<RefreshCB> m_callbacks ;
+
+/// This method allows clients of the GPS recorder to add callback
+/// objects that should be triggered whenever new coordinates become
+/// available.
+public void addCallback(RefreshCB cb)
+{
+   m_callbacks.add(cb) ;
+}
+
 //--------------------------- THE LISTENER ------------------------------
 
 // This inner class implements a listener that responds to GPS events
@@ -184,6 +206,9 @@ private class Listener implements LocationListener {
    public void onLocationChanged(Location L) {
       m_location = L ;
       show_location() ;
+      for(RefreshCB cb:m_callbacks) {
+         cb.gpsUpdated(L) ;
+      }
    }
 } // end of inner class GPSRecorder.Listener
 
