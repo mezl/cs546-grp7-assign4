@@ -60,6 +60,7 @@ import android.widget.Toast ;
 import android.app.AlertDialog ;
 
 // Android application and OS support
+import android.app.Activity ;
 import android.content.Context ;
 
 // Android utilities
@@ -125,6 +126,20 @@ public final static boolean exists(String file_name)
 {
    File f = new File(file_name) ;
    return f.exists() && f.canRead() && f.length() > 0 ;
+}
+
+/// Quick helper to extract just the file name from a given path name (in
+/// case the user entered a full path, which Android does not allow).
+public final static String basename(String path_name)
+{
+   return new File(path_name).getName();
+}
+
+/// Although Android does not allow full path names, we still need those
+/// to check for file existence, etc.
+public final static String fullname(Activity A, String file_name)
+{
+   return A.getFilesDir().getPath() + File.separator + basename(file_name);
 }
 
 /// This function removes the specified file

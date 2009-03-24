@@ -79,19 +79,21 @@
 </LinearLayout>
 
 <!-- Below the destination search box, we display current location -->
-<LinearLayout android:orientation="horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content">
+<RelativeLayout android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
    <TextView android:id="@+id/lat_view"
-             android:layout_width="80dp"
-             android:layout_height="fill_parent"/>
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+             android:layout_alignParentLeft="true"/>
 
    <TextView android:id="@+id/lon_view"
-             android:layout_width="80dp"
-             android:layout_height="fill_parent"/>
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+             android:layout_alignParentRight="true"/>
 
-</LinearLayout>
+</RelativeLayout>
 
 <!-- After the current location, we show the appropriate map tiles -->
 <ImageView android:id="@+id/map_tile"
