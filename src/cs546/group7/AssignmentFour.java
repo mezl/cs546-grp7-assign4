@@ -111,6 +111,29 @@ public class AssignmentFour extends Activity {
    super.onResume() ;
 }
 
+//------------------------ WALKING DIRECTIONS ---------------------------
+
+private Problems p;
+
+private void show_direction(String[] direction)
+{
+  // direction_list.setAdapter(
+  //    new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,direction));
+}
+
+public void init_map(String map)
+{
+   p = new Problems(Utils.fullname(this, map)) ;
+}
+
+public void search(String from, String to)
+{
+   p.setInitial_state(from);
+   p.setGoal_state(to);
+   p.Search(Registry.SEARCH_UNI_COST, null);
+   show_direction(p.getDirection());
+}
+
 //----------------------------- CLEAN-UP --------------------------------
 
 /// Called when the activity ends. In our app, we should close the
@@ -129,34 +152,5 @@ public class AssignmentFour extends Activity {
 }
 
 //-----------------------------------------------------------------------
-
-private Problems p;
-private void show_direction(String[] direction)
-{  
-  // direction_list.setAdapter(
-  //    new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,direction));
-}
-public void init_map(String map) {
-	p = new Problems(fullname(map));// "data/data/android.four/files/map.txt"
-}
-public void search(String from, String to) {
-	p.setInitial_state(from);
-	p.setGoal_state(to);
-	p.Search(Registry.SEARCH_UNI_COST, null);
-	show_direction(p.getDirection());
-}
-
-// / Quick helper to extract just the file name from a given path name (in
-// / case the user entered a full path, which Android does not allow).
-private String basename(String path_name) {
-	return new File(path_name).getName();
-}
-
-// / Although Android does not allow full path names, we still need those
-// / to check for file existence, etc.
-private String fullname(String file_name) {
-	return getFilesDir().getPath() + File.separator + basename(file_name);
-}
-
 
 } // end of class cs546.group7.AssignmentFour
