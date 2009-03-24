@@ -1,0 +1,12 @@
+200 RTH OHE McCllintook.Ave N
+10 RTH EEB McCllintook.Ave S
+15 EEB SAL W.37TH E
+15 SAL PHE W.37TH E
+15 PHE SSL Watt.Way N
+15 SSL VHE Watt.Way N
+15 VHE HNB Watt.Way N
+15 HNB LOT Downey.Way W
+15 LOT SGM Downey.Way W
+15 SGM Lt6 Downey.Way W
+15 Lt6 KAP Downey.Way W
+1 OHE KAP Downey.Way W
