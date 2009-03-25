@@ -11,7 +11,7 @@
 <!--                                                                  -->
 <!--##################################################################-->
 <!--                                                                  -->
-<!-- This file specifies the string resources for the turn-by-turn    -->
+<!-- This file specifies the user interface for the turn-by-turn      -->
 <!-- walking directions application.                                  -->
 <!--                                                                  -->
 <!--##################################################################-->
@@ -53,17 +53,34 @@
 -->
 <!--##################################################################-->
 
-<resources>
-   <string name="app_name">Grp 7 Assign. IV</string>
-   <string name="directions_tab_label">Directions</string>
-   <string name="map_tab_label">Map</string>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
 
-   <string name="search_btn_label">Go</string>
+<!-- An image view for showing the appropriate map tiles -->
+<ImageView android:id="@+id/map_tile"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:scaleType="centerCrop"/>
 
-   <string name="gps_unknown">No location data</string>
-   <string name="no_gps_provider">
-     Sorry, unable to obtain a GPS location provider
-   </string>
+<!-- Below the map, we display current location -->
+<RelativeLayout android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-   <string name="alert_okay_label">OK</string>
-</resources>
+   <TextView android:id="@+id/lat_view"
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+             android:layout_alignParentLeft="true"/>
+
+   <TextView android:id="@+id/lon_view"
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+             android:layout_alignParentRight="true"/>
+
+</RelativeLayout>
+
+<!-- Close top-level layout element -->
+</LinearLayout>

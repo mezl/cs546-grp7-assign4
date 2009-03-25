@@ -105,8 +105,8 @@ private LocationListener m_listener ;
 
 /// The GPS listener monitors updates to the GPS coordinates with the
 /// following frequency and distance resolution.
-public final static int UPDATE_FREQUENCY = 60000 ; // once every minute
-public final static int UPDATE_DISTANCE  = 100 ;   // every hundred meters
+public final static int UPDATE_FREQUENCY = 15000 ; // four times per minute
+public final static int UPDATE_DISTANCE  = 10 ;    // every ten meters
 
 /// When new GPS coordinates become available, we store them to the
 /// following object.
@@ -151,19 +151,17 @@ private GPSRecorder(Context C)
 }
 
 /// The singleton object's lone instance
-public final static GPSRecorder instance(Context C)
+public final static GPSRecorder create(Context C)
 {
    if (m_instance == null)
       m_instance = new GPSRecorder(C) ;
-
-   m_instance.m_context = C ;
    return m_instance ;
 }
 
 /// Just a convenient alias for retrieving the singleton instance
-public final static GPSRecorder create(Context C)
+public final static GPSRecorder instance()
 {
-   return instance(C) ;
+   return m_instance ;
 }
 
 /// Helper to properly setup the GPS listening service

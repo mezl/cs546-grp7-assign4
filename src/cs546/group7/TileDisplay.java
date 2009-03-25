@@ -104,7 +104,7 @@ public TileDisplay(Context C, BuildingMap B, ImageView V)
    m_building_db = B ;
    m_tile_view = V ;
 
-   GPSRecorder.instance(C).addCallback(this) ;
+   GPSRecorder.instance().addCallback(this) ;
 }
 
 //---------------------------- TILE UPDATE ------------------------------
