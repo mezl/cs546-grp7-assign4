@@ -10,9 +10,9 @@
    *                                                                 *
    *******************************************************************
    *                                                                 *
-   * This file contains the main code for a turn-by-turn walking     *
-   * directions application. This application is meant to be used on *
-   * the USC University Park Campus.
+   * This file contains the code for the map tab of a turn-by-turn   *
+   * walking directions application. This application is meant to be *
+   * used on the USC University Park Campus.                         *
    *                                                                 *
    *******************************************************************
 */
@@ -57,22 +57,27 @@ package cs546.group7 ;
 //------------------------------ IMPORTS --------------------------------
 
 // Android UI support
-import android.widget.TabHost ;
+import android.widget.ImageView ;
+
+// Android graphics support
+import android.graphics.BitmapFactory ;
+import android.graphics.Bitmap ;
 
 // Android application and OS support
-import android.app.TabActivity ;
-import android.content.Intent ;
+import android.app.Activity ;
 import android.os.Bundle ;
 
-//--------------------- APPLICATION'S MAIN SCREEN -----------------------
+// Android utilities
+import android.util.Log ;
+
+//-------------------- DISPLAY SCREEN PICTURE TAB -----------------------
 
 /**
-   This class implements the main screen of the turn-by-turn walking
-   directions application. The main screen consists of two tabs: one for
-   showing the turn-by-turn directions and the other for showing the map
-   tile corresponding to the current location.
+   This class implements the map tab of the turn-by-turn walking
+   directions application for the USC campus. It shows the correct tile
+   of the campus map corresponding to the current location.
 */
-public class AssignmentFour extends TabActivity {
+public class MapTab extends Activity {
 
 //-------------------------- INITIALIZATION -----------------------------
 
@@ -81,44 +86,15 @@ public class AssignmentFour extends TabActivity {
 @Override protected void onCreate(Bundle saved_state)
 {
    super.onCreate(saved_state) ;
-
-   // Setup the GPS listener
-   GPSRecorder.create(this) ;
-
-   // Create the walking directions and map display tabs
-   final TabHost H = getTabHost() ;
-   setup_directions_tab(H) ;
-   setup_map_tab(H) ;
+   setContentView(R.layout.map_tab) ;
 }
 
-private void setup_directions_tab(final TabHost H)
-{
-   TabHost.TabSpec T = H.newTabSpec("directions_tab") ;
-   T.setIndicator(getString(R.string.directions_tab_label),
-                  getResources().getDrawable(R.drawable.directions_tab_icon));
-   T.setContent(new Intent(this, DirectionsTab.class)) ;
-   H.addTab(T) ;
-}
+//-------------------------- PICTURE DISPLAY ----------------------------
 
-private void setup_map_tab(final TabHost H)
+private void display_map(long id)
 {
-   TabHost.TabSpec T = H.newTabSpec("map_tab") ;
-   T.setIndicator(getString(R.string.map_tab_label),
-                  getResources().getDrawable(R.drawable.map_tab_icon)) ;
-   T.setContent(new Intent(this, MapTab.class)) ;
-   H.addTab(T) ;
-}
-
-//----------------------------- CLEAN-UP --------------------------------
-
-/// On final application close, we have to shutdown the GPS listener that
-/// we created during application start-up.
-@Override protected void onDestroy()
-{
-   GPSRecorder.instance().shutdown() ;
-   super.onDestroy() ;
 }
 
 //-----------------------------------------------------------------------
 
-} // end of class cs546.group7.AssignmentFour
+} // end of class cs546.group7.MapTab
