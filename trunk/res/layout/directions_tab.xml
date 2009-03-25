@@ -57,7 +57,18 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
+<!-- The building codes Info box on the top -->
+<LinearLayout android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content">
 
+   <!-- The edit box for specifying destination building codes -->
+   <EditText android:id="@+id/search_infobox"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:singleLine="true"/>
+</LinearLayout>
 <!-- On top, the list of walking directions -->
 <ListView android:id="@+id/directions"
           android:layout_width="fill_parent"

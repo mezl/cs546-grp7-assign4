@@ -70,6 +70,7 @@ import android.view.View ;
 
 // Android application and OS support
 import android.app.Activity ;
+import android.location.Location;
 import android.os.Bundle ;
 
 // Android utilities
@@ -83,7 +84,7 @@ import android.util.Log ;
    graph search, i.e., the walking directions, in a list view and an edit
    box + button where users can type in destination building codes.
 */
-public class DirectionsTab extends Activity {
+public class DirectionsTab extends Activity implements GPSRecorder.RefreshCB {
 
 /// The walking directions are displayed on a list view
 private ListView m_directions_view ;
@@ -111,12 +112,19 @@ private Problems m_directions_graph ;
          String dest = bldg_code.getText().toString() ;
          show_path_to(dest) ;
       }}) ;
-
+   EditText info_box = (EditText) findViewById(R.id.search_infobox) ;
+   info_box.setText("Reading GPS...Please Wait");
    // Read the directions graph
    m_directions_graph =
       new Problems(Utils.fullname(this, "code_dist_road_dir.txt")) ;
+   GPSRecorder.instance().addCallback(this);
 }
-
+public void gpsUpdated(Location L) {
+	EditText info_box = (EditText) findViewById(R.id.search_infobox) ;
+	BuildingMap buildm = new BuildingMap();
+	String tile = buildm.codeCalForLatLong(L.getLatitude(), L.getLongitude());
+	info_box.setText("Currently near "+tile);
+}
 //------------------------ WALKING DIRECTIONS ---------------------------
 
 private void show_path_to(String destination)

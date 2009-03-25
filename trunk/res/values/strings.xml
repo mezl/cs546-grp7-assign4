@@ -58,7 +58,7 @@
    <string name="directions_tab_label">Directions</string>
    <string name="map_tab_label">Map</string>
 
-   <string name="search_btn_label">Go</string>
+   <string name="search_btn_label">Go Get Direction  </string>
    <string name="no_destination">
      Please type in a destination building code.
    </string>
