@@ -56,23 +56,15 @@ package cs546.group7 ;
 //------------------------------ IMPORTS --------------------------------
 
 // Android UI support
-import android.widget.ImageView ;
+import java.util.HashMap;
 
-// Android GPS support
-import android.location.Location ;
-
-// Android graphics support
-import android.graphics.BitmapFactory ;
-import android.graphics.Bitmap ;
-
-// Android application and OS support
-import android.content.Context ;
-
-// Android utilities
-import android.util.Log ;
-
-// Java utilities
-import java.util.HashMap ;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.util.Log;
+import android.widget.ImageView;
 
 //------------------------- CLASS DEFINITION ----------------------------
 
@@ -108,7 +100,9 @@ public TileDisplay(Context C, ImageView V)
      setup_tiles_resources_map() ;
 
    m_tile_view = V ;
-
+   m_context = C;
+   GPSRecorder r = GPSRecorder.instance();
+   Log.e(null, " GPSRecorder : " + r);
    GPSRecorder.instance().addCallback(this) ;
 }
 
@@ -119,6 +113,14 @@ public void gpsUpdated(Location L)
    update(L.getLatitude(), L.getLongitude()) ;
 }
 
+/*public void update(double lat, double lon) {
+	String tile = null;
+	BuildingMap buildm = new BuildingMap();
+	tile = buildm.tileCalForLatLong(lat, lon);
+	int Tile = (Integer) m_tiles_resources_map.get(tile);
+	m_tile_view.setImageResource(Tile);
+}*/
+///*
 public void update(double latitude, double longitude)
 {
 	String tile = null;
@@ -129,12 +131,13 @@ public void update(double latitude, double longitude)
   	
 	BuildingMap buildm = new BuildingMap();
 	tile = buildm.tileCalForLatLong(latitude, longitude);
-	
+	Log.e(null, " tile is :" + tile);
 	coords = buildm.coordCalForLatLong(latitude, longitude);
 	
     int tile_num_X = 0, tile_num_Y = 0;
     try {
       int Tile = (Integer) m_tiles_resources_map.get(tile);
+      Log.e(null, " Tile is " + Tile);
       Bitmap bitmap = BitmapFactory.decodeStream(m_context.getResources().openRawResource(Tile));
   	  Bitmap bm = Bitmap.createBitmap(bitmap);
   	  //Toast.makeText(GPSRecorder.this, "tile is :" + tile,Toast.LENGTH_LONG).show();
@@ -230,11 +233,13 @@ public void update(double latitude, double longitude)
   		}
     }
     catch (Exception e) {
-    	Log.e(null, "This is the error : " + e);
+    	Log.e(null, "This is the error : ",  e);
     }
     
+    Log.e(null, " Here it is to display the map");
     m_tile_view.setImageBitmap(bm_to_display);
 }
+//*/
 
 //------------------------------ HELPERS --------------------------------
 
