@@ -79,7 +79,7 @@ class TileDisplay implements GPSRecorder.RefreshCB {
 /// integers defined in R.java. However, our program's database maintains
 /// the names of the individual tile files. Thus, we need to map the file
 /// names to the resource IDs.
-private static HashMap m_tiles_resources_map ;
+//private static HashMap m_tiles_resources_map ;
 
 /// In order to figure out which tile to display, this object needs a
 /// connection to the application's custom database that maps building
@@ -98,8 +98,8 @@ private ImageView m_tile_view ;
 /// displaying the campus map tiles.
 public TileDisplay(Context C, BuildingMap B, ImageView V)
 {
-   if (m_tiles_resources_map == null)
-      setup_tiles_resources_map() ;
+   //if (m_tiles_resources_map == null)
+     // setup_tiles_resources_map() ;
 
    m_building_db = B ;
    m_tile_view = V ;
@@ -111,9 +111,11 @@ public TileDisplay(Context C, BuildingMap B, ImageView V)
 
 public void update(double latitude, double longitude)
 {
-   String tile_name = m_building_db.tileCalForLatLong(latitude, longitude) ;
-   int tile_id = (Integer) m_tiles_resources_map.get(tile_name) ;
-   m_tile_view.setImageResource(tile_id) ;
+   //String tile_name = m_building_db.tileCalForLatLong(latitude, longitude) ;
+   //int tile_id = (Integer) m_tiles_resources_map.get(tile_name) ;
+   MapTab mt = new MapTab();
+   mt.display_map(latitude, longitude);
+   //m_tile_view.setImageResource(tile_id) ;
 }
 
 public void gpsUpdated(Location L)
@@ -123,7 +125,7 @@ public void gpsUpdated(Location L)
 
 //------------------------------ HELPERS --------------------------------
 
-private void setup_tiles_resources_map()
+/*private void setup_tiles_resources_map()
 {
    m_tiles_resources_map = new HashMap(35) ;
    m_tiles_resources_map.put("t110", R.drawable.t110) ;
@@ -161,7 +163,7 @@ private void setup_tiles_resources_map()
    m_tiles_resources_map.put("t550", R.drawable.t550) ;
    m_tiles_resources_map.put("t560", R.drawable.t560) ;
    m_tiles_resources_map.put("t570", R.drawable.t570) ;
-}
+}*/
 
 //-----------------------------------------------------------------------
 
