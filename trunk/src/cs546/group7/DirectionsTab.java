@@ -142,7 +142,7 @@ private void show_path_to(String destination)
       return ;
    }
 
-   TileDisplay.dest = destination;
+  // TileDisplay.dest = destination;
    String src = get_source(db);
    Log.e(null, " src = " + src + " dest : " + destination);
    m_directions_view.setAdapter(new ArrayAdapter<String>(this,

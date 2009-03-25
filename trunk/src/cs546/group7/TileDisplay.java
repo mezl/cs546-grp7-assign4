@@ -75,7 +75,7 @@ import android.widget.ImageView;
 */
 class TileDisplay implements GPSRecorder.RefreshCB {
 
-public static String dest = null;
+//public static String dest = null;
 /// The tiles are all drawable resources and are referenced using
 /// integers defined in R.java. However, our program's database maintains
 /// the names of the individual tile files. Thus, we need to map the file
@@ -223,7 +223,7 @@ public void update(double latitude, double longitude)
   		int m = (coords.Y_coord - (bmtemp.getHeight() / 4)) * bmtemp.getWidth();
   	  	m += coords.X_coord - (bmtemp.getWidth() / 4);
   	  	//Toast.makeText(MapTab.this, "m1 = " + m, Toast.LENGTH_SHORT).show();
-  	  	Utils.notify(m_context, "m1 = " + m);
+  	  	//Utils.notify(m_context, "m1 = " + m);
 
   		for(k = 0; k < bm_to_display.getHeight(); k++) {
   			for(l = 0; l < bm_to_display.getWidth(); l++) {
@@ -252,7 +252,7 @@ public void update(double latitude, double longitude)
     c.drawCircle(128, 128, 5, pt1);
     c.drawCircle(128, 128, 3, pt2);
     
-    if(dest != null) {
+   /* if(dest != null) {
     	Coordinates dest_coords = new Coordinates();
     	dest_coords = buildm.coordCalForCode(dest);
     	if(dest_coords.X_coord != 999 && dest_coords.Y_coord != 999) {
@@ -282,7 +282,7 @@ public void update(double latitude, double longitude)
     			c.drawLine(dest_X_coord, dest_Y_coord + 2, dest_X_coord, dest_X_coord, pt2);
     		}
     	}
-    }
+    }*/
      
     m_tile_view.setImageBitmap(bm_to_display);
 }
