@@ -58,10 +58,11 @@ package cs546.group7 ;
 // Android UI support
 import java.util.HashMap;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.location.Location;
 import android.util.Log;
 import android.widget.ImageView;
@@ -74,6 +75,7 @@ import android.widget.ImageView;
 */
 class TileDisplay implements GPSRecorder.RefreshCB {
 
+public static String dest = null;
 /// The tiles are all drawable resources and are referenced using
 /// integers defined in R.java. However, our program's database maintains
 /// the names of the individual tile files. Thus, we need to map the file
@@ -235,7 +237,51 @@ public void update(double latitude, double longitude)
     	Log.e(null, "This is the error : ",  e);
     }
     
-    Log.e(null, " Here it is to display the map");
+    //Log.e(null, " Here it is to display the map");
+    
+    Canvas c = new Canvas(bm_to_display);
+    Paint pt1 = new Paint();
+    Paint pt2 = new Paint();
+    
+    pt1.setARGB(255, 255, 0, 0);
+    pt2.setARGB(255, 255, 0, 0);
+    
+    pt1.setStyle(Paint.Style.STROKE);
+    pt2.setStyle(Paint.Style.FILL_AND_STROKE);
+    
+    c.drawCircle(128, 128, 5, pt1);
+    c.drawCircle(128, 128, 3, pt2);
+    
+    if(dest != null) {
+    	Coordinates dest_coords = new Coordinates();
+    	dest_coords = buildm.coordCalForCode(dest);
+    	if(dest_coords.X_coord != 999 && dest_coords.Y_coord != 999) {
+    		String dest_tile;
+    		dest_tile = buildm.tileCalForCode(dest);
+    		if(dest_tile != null) {
+    			int dest_X_coord = ((int)(dest_tile.charAt(1)) * 256) + dest_coords.X_coord;
+    			int dest_Y_coord = ((int)(dest_tile.charAt(2)) * 256) + dest_coords.Y_coord;
+    			
+    			Coordinates src_coords = new Coordinates();
+    			src_coords = buildm.coordCalForCode(tile);
+    			
+    			int src_X_coord = ((int)(tile.charAt(1)) * 256) + src_coords.X_coord;
+    			int src_Y_coord = ((int)(tile.charAt(2)) * 256) + src_coords.Y_coord;
+    			
+    			Log.e(null, "dest tile is : " + dest_tile.charAt(1) + dest_tile.charAt(2) + " src tile is " + tile.charAt(1) + tile.charAt(2));
+    			while(Math.abs(src_X_coord - dest_X_coord) > 25) {
+    				dest_X_coord = (src_X_coord + dest_X_coord) / 2;
+    				dest_Y_coord = (src_Y_coord + dest_Y_coord) / 2;
+    			}
+    			
+    			Paint pt3 = new Paint();
+    			pt3.setARGB(255, 0, 0, 205);
+    			pt3.setStyle(Paint.Style.FILL);
+    			c.drawLine(src_X_coord, src_Y_coord, dest_X_coord, dest_Y_coord, pt3);
+    		}
+    	}
+    }
+     
     m_tile_view.setImageBitmap(bm_to_display);
 }
 //*/
