@@ -99,10 +99,9 @@ public TileDisplay(Context C, ImageView V)
    if (m_tiles_resources_map == null)
      setup_tiles_resources_map() ;
 
+   m_context = C ;
    m_tile_view = V ;
-   m_context = C;
-   GPSRecorder r = GPSRecorder.instance();
-   Log.e(null, " GPSRecorder : " + r);
+
    GPSRecorder.instance().addCallback(this) ;
 }
 
