@@ -80,7 +80,7 @@ public class Node {
         this.city_parent_road = city_parent_road;
     }
     public void expand(String algo) {
-
+    	try{
         Set<RoadEdge> cityset = map.edgesOf(cityName);
         Iterator<RoadEdge> cityIter = cityset.iterator();
         //System.out.println("NodeName is"+cityName+" childs="+city_numChildren);
@@ -117,6 +117,9 @@ public class Node {
             }
             city_children[city_numChildren++] = child;
         }
+    	}catch(Exception e){
+    		System.err.print("Can't find location");    		
+    	}
     }
 
     public String getCityName() {
