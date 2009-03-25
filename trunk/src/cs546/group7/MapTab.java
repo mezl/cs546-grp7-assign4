@@ -88,10 +88,12 @@ private TileDisplay m_tile_display ;
 @Override protected void onCreate(Bundle saved_state)
 {
    super.onCreate(saved_state) ;
-   setContentView(R.layout.map_tab) ;
+   setContentView(R.layout.tile_display);//map_tab) ;
 
    m_tile_display =
-      new TileDisplay(this, (ImageView) findViewById(R.id.map_tile)) ;
+      new TileDisplay(this, (ImageView) findViewById(R.id.full_tile));//map_tile)) ;
+   GPSRecorder r = GPSRecorder.instance();
+   m_tile_display.update(r.latitude(), r.longitude());
 }
 
 //-----------------------------------------------------------------------
