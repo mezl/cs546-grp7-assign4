@@ -126,6 +126,7 @@ private void show_path_to(String destination)
       return ;
    }
 
+   destination = destination.toUpperCase() ;
    BuildingMap db = new BuildingMap() ;
    if (! db.codeCheckInDB(destination)) {
       Utils.alert(this,
