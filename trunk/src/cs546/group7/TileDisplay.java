@@ -278,6 +278,8 @@ public void update(double latitude, double longitude)
     			pt3.setARGB(255, 0, 0, 205);
     			pt3.setStyle(Paint.Style.FILL);
     			c.drawLine(src_X_coord, src_Y_coord, dest_X_coord, dest_Y_coord, pt3);
+    			c.drawLine(dest_X_coord - 2, dest_Y_coord, dest_X_coord, dest_Y_coord, pt2);
+    			c.drawLine(dest_X_coord, dest_Y_coord + 2, dest_X_coord, dest_X_coord, pt2);
     		}
     	}
     }
