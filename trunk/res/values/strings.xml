@@ -59,6 +59,10 @@
    <string name="map_tab_label">Map</string>
 
    <string name="search_btn_label">Go</string>
+   <string name="no_destination">
+     Please type in a destination building code.
+   </string>
+   <string name="no_such_building">no such building</string>
 
    <string name="gps_unknown">No location data</string>
    <string name="no_gps_provider">

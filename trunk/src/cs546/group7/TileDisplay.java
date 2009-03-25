@@ -61,8 +61,15 @@ import android.widget.ImageView ;
 // Android GPS support
 import android.location.Location ;
 
+// Android graphics support
+import android.graphics.BitmapFactory ;
+import android.graphics.Bitmap ;
+
 // Android application and OS support
 import android.content.Context ;
+
+// Android utilities
+import android.util.Log ;
 
 // Java utilities
 import java.util.HashMap ;
@@ -79,12 +86,11 @@ class TileDisplay implements GPSRecorder.RefreshCB {
 /// integers defined in R.java. However, our program's database maintains
 /// the names of the individual tile files. Thus, we need to map the file
 /// names to the resource IDs.
-//private static HashMap m_tiles_resources_map ;
+private static HashMap m_tiles_resources_map ;
 
-/// In order to figure out which tile to display, this object needs a
-/// connection to the application's custom database that maps building
-/// codes to GPS coordinates and tile names.
-private BuildingMap m_building_db ;
+/// Since map tiles are stored as application resources, we need a
+/// suitable Android context to access them.
+private Context m_context ;
 
 /// In order to display the tile, this object will need a reference to
 /// the main UI element that will show the bitmaps.
@@ -96,12 +102,11 @@ private ImageView m_tile_view ;
 /// custom database that maps building codes to GPS coordinates and tile
 /// names. Additionally, it needs to know which UI element to use for
 /// displaying the campus map tiles.
-public TileDisplay(Context C, BuildingMap B, ImageView V)
+public TileDisplay(Context C, ImageView V)
 {
-   //if (m_tiles_resources_map == null)
-     // setup_tiles_resources_map() ;
+   if (m_tiles_resources_map == null)
+     setup_tiles_resources_map() ;
 
-   m_building_db = B ;
    m_tile_view = V ;
 
    GPSRecorder.instance().addCallback(this) ;
@@ -109,23 +114,131 @@ public TileDisplay(Context C, BuildingMap B, ImageView V)
 
 //---------------------------- TILE UPDATE ------------------------------
 
-public void update(double latitude, double longitude)
-{
-   //String tile_name = m_building_db.tileCalForLatLong(latitude, longitude) ;
-   //int tile_id = (Integer) m_tiles_resources_map.get(tile_name) ;
-   MapTab mt = new MapTab();
-   mt.display_map(latitude, longitude);
-   //m_tile_view.setImageResource(tile_id) ;
-}
-
 public void gpsUpdated(Location L)
 {
    update(L.getLatitude(), L.getLongitude()) ;
 }
 
+public void update(double latitude, double longitude)
+{
+	String tile = null;
+	Bitmap bm_to_display = null;
+  	Bitmap bmtemp = null;
+  	
+  	Coordinates coords = new Coordinates();
+  	
+	BuildingMap buildm = new BuildingMap();
+	tile = buildm.tileCalForLatLong(latitude, longitude);
+	
+	coords = buildm.coordCalForLatLong(latitude, longitude);
+	
+    int tile_num_X = 0, tile_num_Y = 0;
+    try {
+      int Tile = (Integer) m_tiles_resources_map.get(tile);
+      Bitmap bitmap = BitmapFactory.decodeStream(m_context.getResources().openRawResource(Tile));
+  	  Bitmap bm = Bitmap.createBitmap(bitmap);
+  	  //Toast.makeText(GPSRecorder.this, "tile is :" + tile,Toast.LENGTH_LONG).show();
+  	  //Toast.makeText(GPSRecorder.this, "X-coord: " + coords.X_coord + " Y-coord: " + coords.Y_coord,Toast.LENGTH_LONG).show();
+  	  if(coords.X_coord > 128 && coords.Y_coord < 256) {
+  		  if(coords.Y_coord > 0 && coords.Y_coord < 129) {
+  			 // coordinate = 1;
+  			tile_num_X = Integer.parseInt(tile.substring(1,2));
+  			tile_num_Y = Integer.parseInt(tile.substring(2,3));
+  			tile_num_Y += 1;
+  			coords.Y_coord += bm.getHeight();
+  		  }
+  		  else if(coords.Y_coord > 128 && coords.Y_coord < 256) {
+  			//  coordinate = 4;
+  			tile_num_X = Integer.parseInt(tile.substring(1,2));
+  			tile_num_Y = Integer.parseInt(tile.substring(2,3));
+  			tile_num_X += 1;
+  			tile_num_Y += 1;
+  		  }
+  	  }
+  	  else if(coords.X_coord > 0 && coords.X_coord < 129) {
+  		if(coords.Y_coord > 0 && coords.Y_coord < 129) {
+			//  coordinate = 2;
+			tile_num_X = Integer.parseInt(tile.substring(1,2));
+	  		tile_num_Y = Integer.parseInt(tile.substring(2,3));
+	  		coords.X_coord += bm.getWidth();
+  			coords.Y_coord += bm.getHeight();
+		  }
+		  else if(coords.Y_coord > 128 && coords.Y_coord < 256) {
+			//  coordinate = 3;
+			tile_num_X = Integer.parseInt(tile.substring(1,2));
+	  		tile_num_Y = Integer.parseInt(tile.substring(2,3));
+	  		tile_num_X += 1;
+	  		coords.X_coord += bm.getWidth();
+		  }
+  	  }
+  	  int w = bm.getWidth();
+      int h = bm.getHeight();
+      bm_to_display = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
+      bmtemp = Bitmap.createBitmap(w * 2, h * 2, Bitmap.Config.RGB_565);
+      int[] pix = new int[(w * 2)  * (h * 2)];
+	  
+	  //Toast.makeText(GPSRecorder.this, "tile_num_X = " + tile_num_X + "tile_num_Y = " + tile_num_Y,Toast.LENGTH_LONG).show();
+	  
+	  int X_temp = tile_num_X - 1, Y_temp, k = 0, l = 0;
+      for(int i = 0; i < 2; i ++) {
+    	  Y_temp = tile_num_Y - 1;
+    	  for(int j = 0; j < 2; j ++) {
+    		  String tile_temp = null;
+    		  int Tile_temp;
+    		  if(X_temp < 1 || Y_temp < 1) {
+    			  Tile_temp = R.drawable.no_data;
+    		  }
+    		  else {
+    			  tile_temp = "t" + X_temp + Y_temp + 0;
+    			 // Toast.makeText(GPSRecorder.this, "tile calculated as " + tile_temp, Toast.LENGTH_SHORT).show();
+    			  Tile_temp = (Integer) m_tiles_resources_map.get(tile_temp); 
+    		  }
+
+    		  Bitmap bitmap_temp = BitmapFactory.decodeStream(m_context.getResources().openRawResource(Tile_temp));
+    		  Bitmap bm_temp = Bitmap.createBitmap(bitmap_temp);
+    		  bm_temp.getPixels(pix, 0, w, 0, 0, w, h);
+    		  
+    		  k = i * 256;
+    		  for(int m = 0, k_temp = 0; k_temp < bm_temp.getWidth(); k++, k_temp++) {
+    			  l = j * 256;
+    			  for(int l_temp = 0; l_temp < bm_temp.getHeight(); l++, l_temp++) {
+    				  bmtemp.setPixel(l, k, pix[m]);
+    				  m++;
+    			  }
+    		}
+    		Y_temp++;
+    	  }
+    	  X_temp++;
+      }
+  		
+  		h = bmtemp.getHeight();
+  		w = bmtemp.getWidth();
+  		int[] pixels = new int[w * h];
+  		bmtemp.getPixels(pixels, 0, w, 0, 0, w, h);
+  		
+  		int m = (coords.Y_coord - (bmtemp.getHeight() / 4)) * bmtemp.getWidth();
+  	  	m += coords.X_coord - (bmtemp.getWidth() / 4);
+  	  	//Toast.makeText(MapTab.this, "m1 = " + m, Toast.LENGTH_SHORT).show();
+  	  	Utils.notify(m_context, "m1 = " + m);
+
+  		for(k = 0; k < bm_to_display.getHeight(); k++) {
+  			for(l = 0; l < bm_to_display.getWidth(); l++) {
+  				bm_to_display.setPixel(l, k, pixels[m]);
+  				m++;
+  			}
+  			m += ((bmtemp.getWidth() - coords.X_coord - (bmtemp.getWidth() / 4)) + (coords.X_coord - (bmtemp.getWidth() / 4)));
+  		}
+    }
+    catch (Exception e) {
+    	Log.e(null, "This is the error : " + e);
+    }
+    
+    m_tile_view.setImageBitmap(bm_to_display);
+}
+
 //------------------------------ HELPERS --------------------------------
 
-/*private void setup_tiles_resources_map()
+private void setup_tiles_resources_map()
 {
    m_tiles_resources_map = new HashMap(35) ;
    m_tiles_resources_map.put("t110", R.drawable.t110) ;
@@ -163,7 +276,7 @@ public void gpsUpdated(Location L)
    m_tiles_resources_map.put("t550", R.drawable.t550) ;
    m_tiles_resources_map.put("t560", R.drawable.t560) ;
    m_tiles_resources_map.put("t570", R.drawable.t570) ;
-}*/
+}
 
 //-----------------------------------------------------------------------
 
