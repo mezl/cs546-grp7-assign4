@@ -81,6 +81,7 @@ public class Problems {
 			findSolution(n);
 		} else {
 			solution = " No Solution ";
+			direction.add(solution);
 		}
 		System.out.println("Final solution:[\n"
 				+ solution.substring(0, solution.length() - 1) + "\n]");
@@ -115,7 +116,11 @@ public class Problems {
 			if (node.getCityName().equals(goal)) {
 				return node;// Found the target
 			}
-			node.expand(algo);
+			try{
+				node.expand(algo);
+			}catch(Exception e){
+				Log.e("","Can't Find Source Info");
+			}
 			for (int i = 0; i < node.getNumChildren(); ++i) {
 				Node child = node.getChild(i);
 				// Prevent loop search
