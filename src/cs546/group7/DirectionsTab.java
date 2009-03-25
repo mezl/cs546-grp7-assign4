@@ -63,6 +63,10 @@ import csci561_hw1_search.Registry ;
 // Android UI support
 import android.widget.ListView ;
 import android.widget.ArrayAdapter ;
+import android.widget.EditText ;
+import android.widget.Button ;
+
+import android.view.View ;
 
 // Android application and OS support
 import android.app.Activity ;
@@ -81,6 +85,14 @@ import android.util.Log ;
 */
 public class DirectionsTab extends Activity {
 
+/// The walking directions are displayed on a list view
+private ListView m_directions_view ;
+
+/// We use a graph to get the walking directions from the current
+/// location to some destination. This graph is represented as a problem
+/// space.
+private Problems m_directions_graph ;
+
 //-------------------------- INITIALIZATION -----------------------------
 
 /// This method is called when the activity is first created. It is akin
@@ -89,29 +101,57 @@ public class DirectionsTab extends Activity {
 {
    super.onCreate(saved_state) ;
    setContentView(R.layout.directions_tab) ;
+
+   m_directions_view = (ListView) findViewById(R.id.directions) ;
+
+   Button go_btn = (Button) findViewById(R.id.search_btn) ;
+   go_btn.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View V) {
+         EditText bldg_code = (EditText) findViewById(R.id.search_editbox) ;
+         String dest = bldg_code.getText().toString() ;
+         show_path_to(dest) ;
+      }}) ;
+
+   // Read the directions graph
+   m_directions_graph =
+      new Problems(Utils.fullname(this, "code_dist_road_dir.txt")) ;
 }
 
 //------------------------ WALKING DIRECTIONS ---------------------------
 
-private Problems p;
-
-private void show_direction(String[] direction)
+private void show_path_to(String destination)
 {
-  // direction_list.setAdapter(
-  //    new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,direction));
+   if (destination.length() == 0) {
+      Utils.alert(this, getString(R.string.no_destination)) ;
+      return ;
+   }
+
+   BuildingMap db = new BuildingMap() ;
+   if (! db.codeCheckInDB(destination)) {
+      Utils.alert(this,
+                  destination + ": " + getString(R.string.no_such_building)) ;
+      return ;
+   }
+
+   m_directions_view.setAdapter(new ArrayAdapter<String>(this,
+      android.R.layout.simple_list_item_1,
+      get_directions(get_source(db), destination))) ;
 }
 
-public void init_map(String map)
+// This helper returns the 3-letter code of the building nearest to the
+// phone's current location.
+private String get_source(BuildingMap db)
 {
-   p = new Problems(Utils.fullname(this, map)) ;
+   GPSRecorder R = GPSRecorder.instance() ;
+   return db.codeCalForLatLong(R.latitude(), R.longitude()) ;
 }
 
-public void search(String from, String to)
+private String[] get_directions(String from, String to)
 {
-   p.setInitial_state(from);
-   p.setGoal_state(to);
-   p.Search(Registry.SEARCH_UNI_COST, null);
-   show_direction(p.getDirection());
+   m_directions_graph.setInitial_state(from);
+   m_directions_graph.setGoal_state(to);
+   m_directions_graph.Search(Registry.SEARCH_UNI_COST, null);
+   return m_directions_graph.getDirection() ;
 }
 
 //-----------------------------------------------------------------------
