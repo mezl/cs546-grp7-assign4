@@ -225,8 +225,8 @@ public class Problems {
         } catch (Exception e) {
         	Log.e(getClass().getSimpleName(), e.getMessage(), e);
             //Main.help();
-            System.err.println("Please enter correct map file name");
-            System.exit(0);
+            System.err.println("Please enter correct map file name");            
+            //System.exit(0);
         //e.printStackTrace();
         }
 
