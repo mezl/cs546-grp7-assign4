@@ -348,6 +348,74 @@ private static String[] m_db = new String[] {
 		return Coords;
 	}
 	
+	/*
+	 * The function returns the coordinates for the given Code of the building
+	 */
+	public Coordinates coordCalForCode(String Code) {
+		Coordinates coords = new Coordinates();
+		
+		coords.X_coord = 999;
+		coords.Y_coord = 999;
+		
+		try { 
+			String code;
+			int i =0;
+			String xtemp = "", ytemp = "";
+			while(i < m_db.length) {
+				code = m_db[i].substring(0, 3);
+				if(code.equals(Code)) {
+					int flag = 0;
+					for(int j = 43; j < m_db[i].length(); j++) {
+						if(m_db[i].charAt(j) == ' ') {
+							flag = 1;
+							j++;
+						}
+						if(flag == 0) {
+							xtemp = xtemp + m_db[i].charAt(j);
+						}
+						else {
+							ytemp = ytemp + m_db[i].charAt(j);
+						} 
+					}
+					
+					coords.X_coord = Integer.parseInt(xtemp);
+					coords.Y_coord = Integer.parseInt(ytemp);
+					xtemp = ""; ytemp = "";
+					break;
+				}
+				i++;
+			}
+		}
+		catch(Exception e) {
+			Log.e(null, "Error: " + e);
+		}
+		
+		return coords;
+	}
+	
+	/*
+	 * Function to return Tile number for the Building with a Code
+	 */
+	public String tileCalForCode(String Code) {
+		String tile = null;
+		
+		try {
+			String code;
+			int i = 0;
+			while(i < m_db.length) {
+				code = m_db[i].substring(0, 3);
+				if(code.equals(Code)) {
+					tile = m_db[i].substring(34, 38);
+					break;
+				}
+			}
+		}
+		catch(Exception e) {
+			//System.out.println("File output error");
+		}
+		
+		return tile;
+	}
 }
 
 class LatitudeLongitude {
