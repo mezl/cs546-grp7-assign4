@@ -3,6 +3,8 @@ package cs546.group7 ;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import android.util.Log;
+
 class BuildingMap {
 
 private static String[] m_db = new String[] {
@@ -177,16 +179,15 @@ private static String[] m_db = new String[] {
 		boolean res = false;
 		
 		try {
-			FileReader fr = new FileReader("database_file//code_lat_long_tile.txt");
-			BufferedReader br = new BufferedReader(fr);
-			String aLine;
 			String code;
-			while((aLine = br.readLine()) != null ) {
-				code = aLine.substring(0, 3);
+			int i = 0;
+			while(i < m_db.length) {
+				code = m_db[i].substring(0, 3);
 				if(code.equals(Code)) {
 					res = true;
 					break;
 				}
+				i++;
 			}
 		}
 		catch(Exception e) {
@@ -205,20 +206,21 @@ private static String[] m_db = new String[] {
 		String Code = null;
 		
 		try {
-			FileReader fr = new FileReader("database_file//code_lat_long_tile.txt");
-			BufferedReader br = new BufferedReader(fr);
-			String aLine;
 			String lat, lon;
 			double lati, longi;
-			while((aLine = br.readLine()) != null ) {
-				lat = aLine.substring(4, 17);
-				lon = aLine.substring(18, 33);
+			int i = 0;
+			double res = 100, res_temp = 0;
+			while(i < m_db.length) {
+				lat = m_db[i].substring(4, 17);
+				lon = m_db[i].substring(18, 33);
 				lati = Double.parseDouble(lat);
 				longi = Double.parseDouble(lon);
-				if(lati == Lat && longi == Lon) {
-					Code = aLine.substring(0, 3);
-					break;
+				res_temp = Math.sqrt(Math.pow((Lat - lati), 2) + Math.pow((Lon - longi), 2));
+				if(res > res_temp || i == 0) {
+					Code = m_db[i].substring(0, 3);
+					res = res_temp;
 				}
+				i++;
 			}
 		}
 		catch(Exception e) {
@@ -233,29 +235,27 @@ private static String[] m_db = new String[] {
 	public String tileCalForLatLong(double Lat, double Lon) {
 		String Tile = null;
 		
-		try {
-			FileReader fr = new FileReader("code_lat_long_tile.txt");
-			BufferedReader br = new BufferedReader(fr);
-			String aLine; 
+		try { 
 			String lat, lon;
 			double lati = 0, longi = 0;
 			int i =0;
 			double res = 100, res_temp = 0;
-			while((aLine = br.readLine()) != null ) {
-				lat = aLine.substring(4, 17);
-				lon = aLine.substring(18, 33);
+			while(i < m_db.length) {
+				lat = m_db[i].substring(4, 17);
+				lon = m_db[i].substring(18, 33);
 				lati = Double.parseDouble(lat);
 				longi = Double.parseDouble(lon);
 				res_temp = Math.sqrt(Math.pow((Lat - lati), 2) + Math.pow((Lon - longi), 2));
 				if(res > res_temp || i == 0) {
-					Tile = aLine.substring(34, 37);
+					Tile = m_db[i].substring(34, 38);
 					res = res_temp;
 				}
 				i++;
 			}
 		}
 		catch(Exception e) {
-			System.out.println("File input error");
+			//System.out.println("File input error");
+			Log.e(null, "Error: " + e);
 		}
 		
 		return Tile;
@@ -275,16 +275,14 @@ private static String[] m_db = new String[] {
 		LatLonObj.lon = 999;
 		
 		try {
-			FileReader fr = new FileReader("database_file//code_lat_long_tile.txt");
-			BufferedReader br = new BufferedReader(fr);
-			String aLine;
 			String code;
 			String lat, lon;
-			while((aLine = br.readLine()) != null ) {
-				code = aLine.substring(0, 3);
+			int i = 0;
+			while(i < m_db.length) {
+				code = m_db[i].substring(0, 3);
 				if(code.equals(Code)) {
-					lat = aLine.substring(4, 17);
-					lon = aLine.substring(18, 33);
+					lat = m_db[i].substring(4, 17);
+					lon = m_db[i].substring(18, 33);
 					LatLonObj.lat = Double.parseDouble(lat);
 					LatLonObj.lon = Double.parseDouble(lon);
 					break;
@@ -297,9 +295,67 @@ private static String[] m_db = new String[] {
 		
 		return LatLonObj;
 	}
+	
+	/*
+	 * The function takes the latitude and longitude values and returns 
+	 * appropriate coordinates for the given latitude and longitude values
+	 * as an object for a class Coordinates which has two variables as X_coord and
+	 * X_coord
+	 */
+	public Coordinates coordCalForLatLong(double Lat, double Lon) {
+		Coordinates Coords = new Coordinates();
+
+		try { 
+			String lat, lon;
+			double lati = 0, longi = 0;
+			int i =0;
+			double res = 100, res_temp = 0;
+			String xtemp = "", ytemp = "";
+			while(i < m_db.length) {
+				lat = m_db[i].substring(4, 17);
+				lon = m_db[i].substring(18, 33);
+				lati = Double.parseDouble(lat);
+				longi = Double.parseDouble(lon);
+				res_temp = Math.sqrt(Math.pow((Lat - lati), 2) + Math.pow((Lon - longi), 2));
+				if(res > res_temp || i == 0) {
+					int flag = 0;
+					for(int j = 43; j < m_db[i].length(); j++) {
+						if(m_db[i].charAt(j) == ' ') {
+							flag = 1;
+							j++;
+						}
+						if(flag == 0) {
+							xtemp = xtemp + m_db[i].charAt(j);
+						}
+						else {
+							ytemp = ytemp + m_db[i].charAt(j);
+						} 
+					}
+					
+					Coords.X_coord = Integer.parseInt(xtemp);
+					Coords.Y_coord = Integer.parseInt(ytemp);
+					xtemp = ""; ytemp = "";
+					
+					res = res_temp;
+				}
+				i++;
+			}
+		}
+		catch(Exception e) {
+			Log.e(null, "Error: " + e);
+		}
+		
+		return Coords;
+	}
+	
 }
 
 class LatitudeLongitude {
 	double lat;
 	double lon;
+}
+
+class Coordinates {
+	int X_coord;
+	int Y_coord;
 }
